@@ -1,47 +1,43 @@
 import express from 'express'
 import graphqlHTTP from 'express-graphql'
-import schema from './schema'
+import path from 'path'
+import webpack from 'webpack'
+import WebPackDevServer from 'webpack-dev-server'
+import { schema } from './data/database' //keep looking for this
 
-const app = express()
+const APP_PORT = 3000
+const GRAPHQL_PORT = 8080
 
-app.get('/',(reg, res) => {
-  res.send('GraphQL & Relay modern is cool!!!')
-})
-
-class Friend {
-  constructor(id, {firstName, lastName, gender, language, email}) {
-    this.id = id
-    this.firstName = firstName
-    this.lastName = lastName
-    this.gender = gender
-    this.language = language
-    this.email = email
-  }
-}
-
-const friendDatabase = {
-
-}
-
-const global = {
-  getFriend: ({id})=> {
-    return new Friend(id, friendDatabase[id])
-  },
-  createFriend: ({input}) => {
-    let id = require('crypto').randomBytes(10).toString('hex')
-    friendDatabase[id] = input
-    return new Friend(id, input)
-  },
-  updateFriend: ({id, input}) => {
-    friendDatabase[id] = input
-    return new Friend(id, input)
-  }
-}
-
-app.use('/graphql', graphqlHTTP({
+//GraphQL server
+const graphQLServer = express()
+graphQLServer.use('/', graphqlHTTP({
   schema: schema,
-  rootValue: global,
+  pretty: true,
   graphiql: true,
 }))
+graphQLServer.listen(GRAPHQL_PORT, () => console.log(`GraphQL server on localhost:${GRAPHQL_PORT}`))
 
-app.listen(3000, () => console.log('Running server on local host 3000/graphql'))
+//Relay
+const compiler = webpack({
+  entry:['whatwg-fetch', path.resolve(__dirname, 'src', 'App.js')],
+  modules:{
+    loaders:[
+      {
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        test: /\.js$/,
+      },
+    ],
+  },
+  output: {filename: 'App.js', path: '/'}
+})
+
+const app = new WebPackDevServer(compiler, {
+  contentBase: '/public/',
+  proxy: {'/graphql': `http://localhost${APP_PORT}`},
+  publicPath: '/src/',
+  stats: {colors: true},
+})
+
+app.use('/', express.static(path.resolve(__dirname, 'public')))
+app.listen(APP_PORT,  () => console.log(`App server is now running on localhost:${APP_PORT}`))
