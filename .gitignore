@@ -1,2 +1,2 @@
-/node_modules
-/src/components/__generated__
+node_modules
+src/components/__generated__
