@@ -8,8 +8,8 @@
     "relay": "relay-compiler --src ./src --schema ./data/schema.graphql",
     "update-schema": "babel-node ./scripts/updateSchema.js"
   },
-  "author": "Emmanuel Henri",
-  "license": "ISC",
+  "author": "Reece Jones",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "relay-compiler": "^1.0.0"

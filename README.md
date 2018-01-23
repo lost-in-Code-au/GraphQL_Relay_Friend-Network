@@ -1,7 +1,8 @@
-### GraphQL project
+## GraphQL project
 
+A GraphQL app made to handle social data of a friends network.
 
-## Dependencies
+#### Dependencies
 
 babel-core
 babel-loader
