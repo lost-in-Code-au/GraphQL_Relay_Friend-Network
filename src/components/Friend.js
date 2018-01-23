@@ -21,7 +21,7 @@ class Friend extends Component {
             </div>
           </div>
           <div className="card-action">
-            <a href={"mailto:" + this.props.friend.email} target="_blank">Email: {this.props.friend.email}</a>
+            <a href={'mailto:' + this.props.friend.email} target="_blank">Email: {this.props.friend.email}</a>
           </div>
         </div>
       </li>

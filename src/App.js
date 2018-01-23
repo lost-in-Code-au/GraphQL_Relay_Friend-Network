@@ -17,7 +17,7 @@ function fetchQuery( operation, variables) {
       variables,
     }),
   }).then(response => {
-    return response.json()
+      return response.json()
   })
 }
 
