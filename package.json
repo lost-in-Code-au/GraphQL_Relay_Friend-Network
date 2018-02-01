@@ -8,7 +8,8 @@
     "lint": "node_modules/.bin/eslint ./src -c ./.eslintrc",
     "lint:fix": "yarn lint --fix",
     "relay": "relay-compiler --src ./src --schema ./data/schema.graphql",
-    "update-schema": "babel-node ./scripts/updateSchema.js"
+    "update-schema": "babel-node ./scripts/updateSchema.js",
+    "test": "jest --watchAll"
   },
   "author": "Reece Jones",
   "license": "MIT",
