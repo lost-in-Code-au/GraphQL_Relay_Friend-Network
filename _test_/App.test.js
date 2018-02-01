@@ -1,3 +1,11 @@
-test('adds 1 + 2 to equal 3', () => {
-    expect((1 + 2)).toBe(3);
-});
+import React from 'react'
+import App from '../src/App'
+import renderer from 'react-test-renderer'
+
+describe('Main entry of app test' () => {
+
+    it('renders correctly', () => {
+        const tree = renderer.create(<App />).toJSON()
+        expect(tree).toMatchSnapshot()
+    })
+})
